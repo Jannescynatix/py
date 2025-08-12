@@ -1,3 +1,3 @@
 Flask
-languagetool
+language-tool-python
 gunicorn
