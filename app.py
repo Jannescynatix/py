@@ -1,14 +1,12 @@
 from flask import Flask, render_template, request, jsonify
-import languagetool
+import language_tool_python # HIER IST DIE KORREKTUR
 
 # Flask-App initialisieren
 app = Flask(__name__)
 
 # LanguageTool-Prüfer initialisieren (Deutsch)
-# Es wird empfohlen, die LanguageTool-Engine nur einmal zu initialisieren.
-# LanguageTool lädt die Wörterbücher und Regeln, was beim Start etwas dauern kann.
 try:
-    tool = languagetool.LanguageTool('de-DE')
+    tool = language_tool_python.LanguageTool('de-DE') # UND HIER
 except Exception as e:
     print(f"Fehler beim Laden von LanguageTool: {e}")
     tool = None
@@ -47,10 +45,8 @@ def check_text():
 
         return jsonify({'errors': errors})
     except Exception as e:
-        # Hier werden unerwartete Fehler bei der Prüfung abgefangen
         print(f"Ein unerwarteter Fehler ist aufgetreten: {e}")
         return jsonify({'error': f'Ein unerwarteter Fehler ist aufgetreten: {e}'}), 500
 
 if __name__ == '__main__':
-    # In der Produktion sollte debug=False gesetzt werden
     app.run(host='0.0.0.0', port=5000, debug=True)
